@@ -41,10 +41,19 @@ function renderSelector() {
 }
 
 function renderLegend() {
-  const items = layers[currentLayer].legend;
+  const items = [
+    ...layers[currentLayer].legend,
+    ...Array(5 - layers[currentLayer].legend.length).fill(null)
+  ];
   legendElement.replaceChildren(
     ...items.map((item) => {
       const row = document.createElement("p");
+      if (!item) {
+        row.className = "legend-placeholder";
+        row.setAttribute("aria-hidden", "true");
+        row.innerHTML = "<span class=\"swatch\"></span>&nbsp;";
+        return row;
+      }
       row.innerHTML = `<span class="swatch ${item.status}"></span>${item.label}`;
       return row;
     })
