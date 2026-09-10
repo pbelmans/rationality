@@ -189,11 +189,17 @@ function highlightMethod() {
 }
 
 function renderPapers() {
-  const visible = references.filter((reference) => {
-    const matchesSelection = currentReferenceIds === null || currentReferenceIds.includes(reference.id);
-    const matchesMethod = !currentMethod || reference.methods.includes(currentMethod);
-    return matchesSelection && matchesMethod;
-  });
+  const visible = references
+    .filter((reference) => {
+      const matchesSelection = currentReferenceIds === null || currentReferenceIds.includes(reference.id);
+      const matchesMethod = !currentMethod || reference.methods.includes(currentMethod);
+      return matchesSelection && matchesMethod;
+    })
+    .sort((left, right) =>
+      left.year - right.year ||
+      left.authors.localeCompare(right.authors) ||
+      left.title.localeCompare(right.title)
+    );
 
   paperList.replaceChildren(
     ...visible.map((reference) => {
