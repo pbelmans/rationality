@@ -1,0 +1,10 @@
+{
+  "name": "rationality-info",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "hugo --gc --minify",
+    "test": "node --test"
+  }
+}
+

@@ -1,0 +1,29 @@
+{{ define "main" }}
+<noscript><p class="notice">This interactive table requires JavaScript.</p></noscript>
+
+<div id="layer-selector" class="btn-group flex-wrap mb-2" role="group" aria-label="Choose a property"></div>
+
+<div class="row no-gutters" id="top">
+  <div class="col-md-8" id="intro">
+    <p id="information">?</p>
+  </div>
+  <div class="col-md-4" id="legend" aria-label="Legend"></div>
+</div>
+
+<div class="table-wrap">
+  <table id="result-table" aria-label="Results by dimension and degree"></table>
+</div>
+
+<section id="methods">
+  <h2>Methods <button id="clear-filter" class="btn btn-sm btn-link" type="button" hidden>clear method</button></h2>
+  <p id="paper-filter-label" hidden></p>
+  <dl id="method-list"></dl>
+</section>
+
+<section id="papers">
+  <h2>References<span id="specifier"></span></h2>
+  <ul id="paper-list"></ul>
+</section>
+
+<script type="module" src="{{ "js/app.js" | relURL }}"></script>
+{{ end }}
