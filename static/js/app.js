@@ -44,7 +44,7 @@ function renderSelector() {
 function renderLegend() {
   const items = [
     ...layers[currentLayer].legend,
-    ...Array(5 - layers[currentLayer].legend.length).fill(null)
+    ...Array(6 - layers[currentLayer].legend.length).fill(null)
   ];
   legendElement.replaceChildren(
     ...items.map((item) => {
