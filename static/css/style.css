@@ -216,6 +216,20 @@ h2 {
   text-decoration-thickness: 2px;
 }
 
+.reference-link {
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+}
+
+.reference-link:hover,
+.reference-link.active {
+  background-color: #fffbcc;
+}
+
 #paper-filter-label {
   color: #555;
   font-style: italic;

@@ -14,6 +14,7 @@ const methodById = new Map(methods.map((method) => [method.id, method]));
 
 let currentLayer = "rationality";
 let currentMethod = null;
+let currentReference = null;
 let currentReferenceIds = null;
 
 const selector = document.querySelector("#layer-selector");
@@ -95,7 +96,7 @@ function renderTable() {
   });
 
   table.replaceChildren(header, ...bodyRows);
-  highlightMethod();
+  highlightCells();
 }
 
 function referenceMarkup(id) {
@@ -109,6 +110,7 @@ function referenceMarkup(id) {
 }
 
 function showResult(n, d, updateHash = false) {
+  currentReference = null;
   const outcome = classify(currentLayer, n, d);
   const active = document.querySelector(`.cell.active[data-n="${n}"][data-d="${d}"]`);
   if (active && updateHash) {
@@ -132,7 +134,7 @@ function showResult(n, d, updateHash = false) {
   information.querySelectorAll("[data-method]").forEach((button) => {
     button.addEventListener("click", () => setMethodFilter(button.dataset.method));
   });
-  highlightMethod();
+  highlightCells();
   renderPapers();
   window.MathJax?.typesetPromise?.([information, specifier]);
   if (updateHash) history.replaceState(null, "", `#${currentLayer}/${n}/${d}`);
@@ -176,15 +178,21 @@ function renderMethods() {
   );
 }
 
-function highlightMethod() {
+function highlightCells() {
   document.querySelectorAll(".cell").forEach((cell) => {
     const outcome = classify(currentLayer, Number(cell.dataset.n), Number(cell.dataset.d));
-    const matches = currentMethod && outcome.methods.includes(currentMethod);
+    const matches =
+      (currentMethod && outcome.methods.includes(currentMethod)) ||
+      (currentReference && outcome.refs.includes(currentReference));
+    const hasFilter = currentMethod || currentReference;
     cell.classList.toggle("method-match", Boolean(matches));
-    cell.classList.toggle("method-muted", Boolean(currentMethod && !matches));
+    cell.classList.toggle("method-muted", Boolean(hasFilter && !matches));
   });
   document.querySelectorAll("[data-method]").forEach((button) => {
     button.classList.toggle("active", button.dataset.method === currentMethod);
+  });
+  document.querySelectorAll("[data-reference]").forEach((button) => {
+    button.classList.toggle("active", button.dataset.reference === currentReference);
   });
 }
 
@@ -207,8 +215,14 @@ function renderPapers() {
       const venue = reference.type === "preprint"
         ? `${reference.note}, ${reference.year}`
         : `${reference.venue} (${reference.year})`;
-      item.innerHTML = `${reference.authors}, <em>${reference.title}</em>, ${venue}
+      item.innerHTML = `<button type="button" class="reference-link" data-reference="${reference.id}">
+          ${reference.authors}, <em>${reference.title}</em>, ${venue}</button>
         [<a href="${referenceUrl(reference)}">${reference.id}</a>]`;
+      const button = item.querySelector("[data-reference]");
+      button.classList.toggle("active", reference.id === currentReference);
+      button.addEventListener("click", () => {
+        setReferenceFilter(reference.id);
+      });
       return item;
     })
   );
@@ -225,13 +239,14 @@ function setMethodFilter(id) {
     clearMethodFilter();
     return;
   }
+  currentReference = null;
   currentMethod = id;
   clearResult();
   const method = methodById.get(id);
   filterLabel.textContent = `Highlighting cells using ${method.name}.`;
   filterLabel.hidden = false;
   clearFilter.hidden = false;
-  highlightMethod();
+  highlightCells();
   renderPapers();
 }
 
@@ -239,8 +254,36 @@ function clearMethodFilter() {
   currentMethod = null;
   filterLabel.hidden = true;
   clearFilter.hidden = true;
-  highlightMethod();
+  highlightCells();
   renderPapers();
+}
+
+function layerHasReference(layer, id) {
+  return degrees.some((d) =>
+    dimensions.some((n) => classify(layer, n, d).refs.includes(id))
+  );
+}
+
+function setReferenceFilter(id) {
+  if (currentReference === id) {
+    currentReference = null;
+    highlightCells();
+    return;
+  }
+
+  currentReference = id;
+  currentMethod = null;
+  filterLabel.hidden = true;
+  clearFilter.hidden = true;
+  const layer = layerHasReference(currentLayer, id)
+    ? currentLayer
+    : Object.keys(layers).find((candidate) => layerHasReference(candidate, id));
+  if (layer && layer !== currentLayer) {
+    selectLayer(layer);
+    return;
+  }
+  clearResult();
+  highlightCells();
 }
 
 function applyHash() {
