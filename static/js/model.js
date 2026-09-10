@@ -88,6 +88,13 @@ export const methods = [
       "Stable or retract rationality forces universal CH0-triviality and an integral decomposition of the diagonal."
   },
   {
+    id: "unramified",
+    name: "Unramified cohomology and quadratic forms",
+    kind: "stable obstruction",
+    summary:
+      "Nonzero unramified cohomology obstructs retract rationality; quadratic forms and quadric bundles provide computable classes."
+  },
+  {
     id: "specialization",
     name: "Specialization and characteristic p",
     kind: "stable obstruction",
@@ -191,6 +198,15 @@ export const references = [
     topics: ["rationality", "Fano hypersurfaces"]
   },
   {
+    id: "MR0870730",
+    authors: "A. V. Pukhlikov",
+    title: "Birational isomorphisms of four-dimensional quintics",
+    year: 1987,
+    venue: "Invent. Math. 87, 303-329",
+    methods: ["rigidity"],
+    topics: ["rationality", "quintic fourfold"]
+  },
+  {
     id: "MR3968870",
     authors: "Michele Bolognesi, Francesco Russo, and Giovanni Stagliano",
     title: "Some loci of rational cubic fourfolds",
@@ -207,6 +223,15 @@ export const references = [
     venue: "Ann. Sci. Ecole Norm. Sup. (4) 49, 371-397",
     methods: ["diagonal", "specialization"],
     topics: ["stable rationality", "quartic threefold"]
+  },
+  {
+    id: "MR3359052",
+    authors: "Claire Voisin",
+    title: "Unirational threefolds with no universal codimension 2 cycle",
+    year: 2015,
+    venue: "Invent. Math. 201, 207-237",
+    methods: ["diagonal"],
+    topics: ["stable rationality", "algebraic cycles"]
   },
   {
     id: "MR3486175",
@@ -250,8 +275,35 @@ export const references = [
     title: "Stably irrational hypersurfaces of small slopes",
     year: 2019,
     venue: "J. Amer. Math. Soc. 32, 1171-1199",
-    methods: ["diagonal", "specialization"],
+    methods: ["diagonal", "unramified", "specialization"],
     topics: ["stable rationality", "very general"]
+  },
+  {
+    id: "MR3909896",
+    authors: "Stefan Schreieder",
+    title: "On the rationality problem for quadric bundles",
+    year: 2019,
+    venue: "Duke Math. J. 168, 187-223",
+    methods: ["unramified", "specialization"],
+    topics: ["stable rationality", "quadric bundles"]
+  },
+  {
+    id: "MR0999316",
+    authors: "Jean-Louis Colliot-Thelene and Manuel Ojanguren",
+    title: "Varietes unirationnelles non rationnelles: au-dela de l'exemple d'Artin et Mumford",
+    year: 1989,
+    venue: "Invent. Math. 97, 141-158",
+    methods: ["unramified"],
+    topics: ["stable rationality", "unramified cohomology"]
+  },
+  {
+    id: "MR3849287",
+    authors: "Brendan Hassett, Alena Pirutka, and Yuri Tschinkel",
+    title: "Stable rationality of quadric surface bundles over surfaces",
+    year: 2018,
+    venue: "Acta Math. 220, 341-365",
+    methods: ["unramified", "specialization"],
+    topics: ["stable rationality", "quadric bundles"]
   },
   {
     id: "MR4497222",
@@ -298,6 +350,36 @@ export const references = [
     note: "arXiv v2",
     methods: ["diagonal", "specialization"],
     topics: ["stable rationality", "very general", "unirationality"]
+  },
+  {
+    id: "2311.01144",
+    type: "preprint",
+    authors: "Simen Westbye Moe",
+    title: "On stable rationality of polytopes",
+    year: 2023,
+    note: "arXiv v1",
+    methods: ["motivic"],
+    topics: ["stable rationality", "tropical geometry"]
+  },
+  {
+    id: "2502.21090",
+    type: "preprint",
+    authors: "James Hotchkiss and David Stapleton",
+    title: "Complexes of stable birational invariants",
+    year: 2025,
+    note: "arXiv v1",
+    methods: ["diagonal", "specialization"],
+    topics: ["stable rationality", "very general"]
+  },
+  {
+    id: "2609.10231",
+    type: "preprint",
+    authors: "John Christian Ottem",
+    title: "Stable irrationality of quartic sixfolds",
+    year: 2026,
+    note: "arXiv v1",
+    methods: ["diagonal", "unramified", "specialization"],
+    topics: ["stable rationality", "quartic sixfold"]
   },
   {
     id: "1903.02481",
@@ -387,7 +469,7 @@ function rationality(n, d) {
       "no",
       "Irrational",
       "Every smooth index-one hypersurface of dimension at least 3 is birationally rigid, hence irrational.",
-      ["MR0291172", "MR1650332", "MR3049929"],
+      ["MR0291172", "MR0870730", "MR1650332", "MR3049929"],
       ["rigidity"]
     );
   }
@@ -426,12 +508,21 @@ function stableRationality(n, d) {
       ["hodge-matroids", "diagonal"]
     );
   }
+  if (n === 6 && d === 4) {
+    return result(
+      "very-general-no",
+      "Very general is not stably rational",
+      "A very general quartic sixfold has no integral decomposition of the diagonal, hence is neither retract nor stably rational.",
+      ["MR0999316", "MR3849287", "2609.10231"],
+      ["diagonal", "unramified", "specialization"]
+    );
+  }
   if (d >= 4 && n <= (d + 1) * 2 ** (d - 4)) {
     return result(
       "very-general-no",
       "Very general member not stably rational",
       "A very general hypersurface in this range has no decomposition of the diagonal, hence is neither retract nor stably rational.",
-      ["MR3486175", "MR3987174", "MR3987175", "MR4013741", "MR4226988", "MR4383702", "MR4497222", "MR4673396", "2409.12834"],
+      ["MR3359052", "MR3486175", "MR3909896", "MR3987174", "MR3987175", "MR4013741", "MR4226988", "MR4383702", "MR4497222", "MR4673396", "2311.01144", "2409.12834", "2502.21090"],
       ["diagonal", "specialization"]
     );
   }
@@ -440,8 +531,8 @@ function stableRationality(n, d) {
       "very-general-no",
       "Very general member not stably rational",
       "The logarithmic small-slope bound obstructs stable rationality for a very general hypersurface.",
-      ["MR3486175", "MR4013741", "MR4226988"],
-      ["diagonal", "specialization"]
+      ["MR3359052", "MR3486175", "MR3909896", "MR4013741", "MR4226988"],
+      ["diagonal", "unramified", "specialization"]
     );
   }
   return result(

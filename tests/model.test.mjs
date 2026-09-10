@@ -17,6 +17,13 @@ test("stable rationality records the cubic threefold preprint quantifier", () =>
   assert.deepEqual(result.refs, ["MR3646872", "2507.15704"]);
 });
 
+test("Ottem updates the quartic sixfold cell", () => {
+  const result = classify("stable", 6, 4);
+  assert.equal(result.status, "very-general-no");
+  assert.ok(result.refs.includes("2609.10231"));
+  assert.ok(result.methods.includes("unramified"));
+});
+
 test("rationality and stable rationality are not conflated", () => {
   assert.equal(classify("rationality", 3, 4).status, "no");
   assert.equal(classify("stable", 3, 4).status, "very-general-no");
