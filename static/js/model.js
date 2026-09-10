@@ -7,7 +7,7 @@ export const layers = {
       { status: "yes", label: "rational" },
       { status: "no", label: "irrational" },
       { status: "very-general-no", label: "very general irrational" },
-      { status: "open", label: "open or mixed" }
+      { status: "open", label: "open" }
     ]
   },
   stable: {
