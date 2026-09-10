@@ -7,6 +7,7 @@ hypersurfaces
 \[
 X_d^n\subset\mathbb P^{n+1}_{\mathbb C}.
 \]
+It is maintained by [Pieter Belmans](https://pbelmans.ncag.info).
 
 ## Definitions
 
@@ -43,4 +44,7 @@ Here **very general** means outside a countable union of proper closed subsets
 of the parameter space. It is stronger than **general**, which means outside a
 single proper closed subset.
 
-Corrections should be submitted as an issue or pull request.
+Corrections can be submitted as a
+[GitHub issue](https://github.com/pbelmans/rationality/issues),
+[pull request](https://github.com/pbelmans/rationality/pulls),
+or by [sending me an email](mailto:p.belmans@uu.nl).
