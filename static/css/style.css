@@ -117,8 +117,8 @@ main {
   background-color: var(--very-general-no);
 }
 
-.preprint-no {
-  background-color: var(--very-general-no);
+.very-general-no-known {
+  background: linear-gradient(135deg, var(--very-general-no) 0 50%, var(--yes) 50%);
 }
 
 .open {

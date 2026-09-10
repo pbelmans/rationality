@@ -4,34 +4,35 @@ export const layers = {
   rationality: {
     label: "Rationality",
     legend: [
-      { status: "yes", label: "rational" },
-      { status: "no", label: "irrational" },
-      { status: "very-general-no", label: "very general irrational" },
-      { status: "open", label: "open" }
+      { status: "yes", label: "all are rational" },
+      { status: "no", label: "all are irrational" },
+      { status: "very-general-no", label: "very general is irrational, rational ones unknown" },
+      { status: "very-general-no-known", label: "very general is irrational, rational ones known" },
+      { status: "open", label: "open problem" }
     ]
   },
   stable: {
     label: "Stable rationality",
     legend: [
-      { status: "yes", label: "stably rational" },
-      { status: "no", label: "not stably rational" },
-      { status: "very-general-no", label: "very general not stably rational" },
-      { status: "open", label: "open" }
+      { status: "yes", label: "all are stably rational" },
+      { status: "no", label: "none are stably rational" },
+      { status: "very-general-no", label: "very general is not stably rational" },
+      { status: "open", label: "open problem" }
     ]
   },
   unirationality: {
     label: "Unirationality",
     legend: [
-      { status: "yes", label: "unirational" },
-      { status: "no", label: "not unirational" },
-      { status: "open", label: "open" }
+      { status: "yes", label: "all are unirational" },
+      { status: "no", label: "none are unirational" },
+      { status: "open", label: "open problem" }
     ]
   },
   connectedness: {
     label: "Rational connectedness",
     legend: [
-      { status: "yes", label: "rationally connected" },
-      { status: "no", label: "not rationally connected" }
+      { status: "yes", label: "all are rationally connected" },
+      { status: "no", label: "none are rationally connected" }
     ]
   }
 };
@@ -365,8 +366,8 @@ function rationality(n, d) {
   }
   if (d === 3 && n === 4) {
     return result(
-      "preprint-no",
-      "Very general member irrational",
+      "very-general-no-known",
+      "Very general is irrational, rational ones known",
       "A 2026 preprint proves that a very general cubic fourfold is irrational. Special rational cubic fourfolds are known, and stable rationality of a very general member remains open.",
       ["2508.05105", "MR3968870"],
       ["quantum-hodge"]
@@ -384,8 +385,8 @@ function rationality(n, d) {
   if (d >= 2 * Math.ceil((n + 3) / 3)) {
     return result(
       "very-general-no",
-      "Very general member irrational",
-      "A very general hypersurface in this cell is not ruled, hence irrational. This does not classify every smooth member.",
+      "Very general is irrational, rational ones unknown",
+      "A very general hypersurface in this cell is not ruled, hence irrational. No smooth rational examples are known.",
       ["MR1273416"],
       ["specialization"]
     );
@@ -395,7 +396,7 @@ function rationality(n, d) {
     : "";
   return result(
     "open",
-    "No uniform rationality answer",
+    "Open problem",
     "The rationality of a very general member is open." + special
   );
 }
@@ -409,8 +410,8 @@ function stableRationality(n, d) {
   }
   if (n === 3 && d === 3) {
     return result(
-      "preprint-no",
-      "Very general member not stably rational",
+      "very-general-no",
+      "Very general is not stably rational",
       "A 2026 preprint proves that a very general cubic threefold has no integral decomposition of the diagonal. The statement is not known for every smooth cubic threefold.",
       ["MR3646872", "2507.15704"],
       ["hodge-matroids", "diagonal"]

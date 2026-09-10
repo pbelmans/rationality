@@ -6,13 +6,13 @@ import { classify, referenceUrl, references } from "../static/js/model.js";
 test("classical cubic cases remain distinct", () => {
   assert.equal(classify("rationality", 2, 3).status, "yes");
   assert.equal(classify("rationality", 3, 3).status, "no");
-  assert.equal(classify("rationality", 4, 3).status, "preprint-no");
+  assert.equal(classify("rationality", 4, 3).status, "very-general-no-known");
   assert.equal(classify("rationality", 5, 3).status, "open");
 });
 
 test("stable rationality records the cubic threefold preprint quantifier", () => {
   const result = classify("stable", 3, 3);
-  assert.equal(result.status, "preprint-no");
+  assert.equal(result.status, "very-general-no");
   assert.match(result.statement, /very general/i);
   assert.deepEqual(result.refs, ["MR3646872", "2507.15704"]);
 });
