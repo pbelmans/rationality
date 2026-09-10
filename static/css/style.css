@@ -87,16 +87,18 @@ main {
 
 #legend {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-template-rows: repeat(2, 2.3rem);
+  grid-auto-flow: column;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 2.2fr) minmax(0, .9fr);
+  grid-template-rows: repeat(2, 2.6rem);
 }
 
 #legend p {
   align-items: center;
   display: flex;
-  font-size: .8rem;
+  font-size: .75rem;
   gap: .4rem;
-  margin: .1rem 0;
+  line-height: 1.15;
+  margin: 0;
 }
 
 .legend-placeholder {
@@ -286,11 +288,7 @@ dl#method-list {
 
 @media (max-width: 560px) {
   #legend {
-    grid-template-rows: repeat(2, 3.4rem);
-  }
-
-  #legend p {
-    font-size: .7rem;
+    grid-template-rows: repeat(2, 2.6rem);
   }
 
   #methods dl,
