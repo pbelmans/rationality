@@ -164,6 +164,15 @@ export const references = [
     topics: ["unirationality", "cubics"]
   },
   {
+    id: "MR0460349",
+    authors: "Yu. I. Manin",
+    title: "Cubic forms: algebra, geometry, arithmetic",
+    year: 1974,
+    venue: "North-Holland Mathematical Library 4",
+    methods: ["secants"],
+    topics: ["unirationality", "cubics"]
+  },
+  {
     id: "MR3049929",
     authors: "Tommaso de Fernex",
     title: "Birationally rigid hypersurfaces",
@@ -460,7 +469,7 @@ function unirationality(n, d) {
       "yes",
       "Unirational",
       "Every smooth complex cubic hypersurface of dimension at least 2 is unirational.",
-      ["MR1956057"],
+      ["MR0460349", "MR1956057"],
       ["secants"]
     );
   }
