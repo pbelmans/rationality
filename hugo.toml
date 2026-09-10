@@ -1,4 +1,4 @@
-baseURL = "https://pbelmans.github.io/rationality/"
+baseURL = "https://pbelmans.ncag.info/rationality/"
 locale = "en-us"
 title = "Rationality of hypersurfaces"
 disableKinds = ["taxonomy", "term", "RSS"]
