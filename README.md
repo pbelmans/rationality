@@ -1,4 +1,4 @@
-# rationality.info
+# rationality.fanography.info
 
 A reference for rationality questions about smooth complex hypersurfaces. The
 overview is indexed by dimension and degree, and separates

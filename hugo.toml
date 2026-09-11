@@ -1,4 +1,4 @@
-baseURL = "https://rationality.ncag.info/"
+baseURL = "https://rationality.fanography.info/"
 locale = "en-us"
 title = "Rationality of hypersurfaces"
 disableKinds = ["taxonomy", "term", "RSS"]
