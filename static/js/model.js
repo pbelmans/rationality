@@ -482,6 +482,16 @@ function rationality(n, d) {
       ["specialization"]
     );
   }
+  const stable = stableRationality(n, d);
+  if (stable.status === "very-general-no") {
+    return result(
+      "very-general-no",
+      "Very general is irrational, rational ones unknown",
+      "A very general hypersurface in this cell is not stably rational, hence is irrational.",
+      stable.refs,
+      stable.methods
+    );
+  }
   const special = d === 3 && n >= 4 && n % 2 === 0
     ? " Special rational examples arise in even dimension from suitable linear spaces."
     : "";

@@ -29,6 +29,27 @@ test("rationality and stable rationality are not conflated", () => {
   assert.equal(classify("stable", 3, 4).status, "very-general-no");
 });
 
+test("very general stable irrationality implies irrationality throughout the table", () => {
+  for (let d = 2; d <= 20; d += 1) {
+    for (let n = 1; n <= 20; n += 1) {
+      if (classify("stable", n, d).status !== "very-general-no") continue;
+      assert.ok(
+        ["no", "very-general-no", "very-general-no-known"].includes(classify("rationality", n, d).status),
+        `dimension ${n}, degree ${d} has a stable irrationality result but no irrationality result`
+      );
+    }
+  }
+});
+
+test("rationality inherits references for the quartic sixfold", () => {
+  const stable = classify("stable", 6, 4);
+  const rationality = classify("rationality", 6, 4);
+  assert.equal(rationality.status, "very-general-no");
+  assert.match(rationality.statement, /not stably rational, hence is irrational/);
+  assert.deepEqual(rationality.refs, stable.refs);
+  assert.deepEqual(rationality.methods, stable.methods);
+});
+
 test("unirational cubics can still be irrational", () => {
   assert.equal(classify("unirationality", 3, 3).status, "yes");
   assert.equal(classify("rationality", 3, 3).status, "no");
