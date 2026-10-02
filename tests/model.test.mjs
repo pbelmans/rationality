@@ -31,7 +31,7 @@ test("rationality and stable rationality are not conflated", () => {
 
 test("very general stable irrationality implies irrationality throughout the table", () => {
   for (let d = 2; d <= 20; d += 1) {
-    for (let n = 1; n <= 20; n += 1) {
+    for (let n = 1; n <= 100; n += 1) {
       if (classify("stable", n, d).status !== "very-general-no") continue;
       assert.ok(
         ["no", "very-general-no", "very-general-no-known"].includes(classify("rationality", n, d).status),

@@ -136,38 +136,79 @@ main {
 
 .table-wrap {
   overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+}
+
+.table-wrap:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 table#result-table {
-  border-collapse: collapse;
-  min-width: 720px;
-  width: 100%;
+  --cell-size: 28px;
+  --row-label-size: 42px;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  width: calc(var(--row-label-size) + var(--column-count) * var(--cell-size));
 }
 
 table#result-table td,
 table#result-table th {
-  height: 22px;
+  box-sizing: border-box;
+  height: var(--cell-size);
+  max-width: var(--cell-size);
+  min-width: var(--cell-size);
+  padding: 0;
   text-align: center;
-  width: 40px;
+  width: var(--cell-size);
 }
 
 table#result-table th {
+  background: #fff;
+  border-bottom: 1px solid #333;
+  border-right: 1px solid #333;
   font-size: 80%;
   font-weight: 500;
 }
 
+table#result-table th:first-child {
+  max-width: var(--row-label-size);
+  min-width: var(--row-label-size);
+  width: var(--row-label-size);
+}
+
+table#result-table thead th {
+  border-top: 1px solid #333;
+}
+
+table#result-table tbody th {
+  box-shadow: inset 1px 0 #333;
+  left: 0;
+  position: sticky;
+  z-index: 1;
+}
+
+table#result-table th.corner {
+  box-shadow: inset 1px 0 #333;
+  left: 0;
+  position: sticky;
+  z-index: 2;
+}
+
 table#result-table td {
-  border: 1px solid #333;
-  padding: 0;
+  border-bottom: 1px solid #333;
+  border-right: 1px solid #333;
 }
 
 button.cell {
   border: 0;
   cursor: pointer;
   display: block;
-  height: 22px;
+  height: calc(var(--cell-size) - 1px);
   padding: 0;
-  width: 100%;
+  width: calc(var(--cell-size) - 1px);
 }
 
 button.cell:hover {

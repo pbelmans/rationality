@@ -7,7 +7,7 @@ import {
   snapshotDate
 } from "./model.js";
 
-const dimensions = Array.from({ length: 20 }, (_, index) => index + 1);
+const dimensions = Array.from({ length: 100 }, (_, index) => index + 1);
 const degrees = Array.from({ length: 19 }, (_, index) => index + 2);
 const referenceById = new Map(references.map((reference) => [reference.id, reference]));
 const methodById = new Map(methods.map((method) => [method.id, method]));
@@ -20,6 +20,7 @@ let currentReferenceIds = null;
 const selector = document.querySelector("#layer-selector");
 const legendElement = document.querySelector("#legend");
 const table = document.querySelector("#result-table");
+const tableWrap = document.querySelector(".table-wrap");
 const information = document.querySelector("#information");
 const specifier = document.querySelector("#specifier");
 const methodList = document.querySelector("#method-list");
@@ -95,8 +96,27 @@ function renderTable() {
     return row;
   });
 
-  table.replaceChildren(header, ...bodyRows);
+  const head = document.createElement("thead");
+  head.append(header);
+  const body = document.createElement("tbody");
+  body.append(...bodyRows);
+  table.style.setProperty("--column-count", dimensions.length);
+  table.replaceChildren(head, body);
   highlightCells();
+}
+
+function dimensionColumnWidth() {
+  return table.tHead?.rows[0].cells[1].getBoundingClientRect().width || 1;
+}
+
+function revealDimension(n) {
+  const columnWidth = dimensionColumnWidth();
+  const visibleWidth = tableWrap.clientWidth - table.tHead.rows[0].cells[0].offsetWidth;
+  const left = (n - 1) * columnWidth;
+  if (left < tableWrap.scrollLeft) tableWrap.scrollLeft = left;
+  if (left + columnWidth > tableWrap.scrollLeft + visibleWidth) {
+    tableWrap.scrollLeft = left + columnWidth - visibleWidth;
+  }
 }
 
 function referenceMarkup(id) {
@@ -120,6 +140,7 @@ function showResult(n, d, updateHash = false) {
   }
   document.querySelectorAll(".cell.active").forEach((cell) => cell.classList.remove("active"));
   document.querySelector(`.cell[data-n="${n}"][data-d="${d}"]`)?.classList.add("active");
+  revealDimension(n);
 
   const methodLinks = outcome.methods
     .map((id) => `<button type="button" class="method-link" data-method="${id}">${methodById.get(id)?.name}</button>`)
