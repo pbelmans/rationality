@@ -1,4 +1,4 @@
-export const snapshotDate = "2026-09-10";
+export const snapshotDate = "2026-10-02";
 
 export const layers = {
   rationality: {
@@ -25,6 +25,8 @@ export const layers = {
     legend: [
       { status: "yes", label: "all are unirational" },
       { status: "no", label: "none are unirational" },
+      { status: "general-yes", label: "general member is unirational" },
+      { status: "special-yes", label: "special examples are unirational" },
       { status: "open", label: "open problem" }
     ]
   },
@@ -58,6 +60,20 @@ export const methods = [
     kind: "positive",
     summary:
       "Study Fano schemes and families of rational curves to construct dominant parametrizations in high dimension."
+  },
+  {
+    id: "linear-spaces",
+    name: "Linear spaces and projection",
+    kind: "positive",
+    summary:
+      "Project from a linear space contained in a hypersurface and construct a dominant rational map."
+  },
+  {
+    id: "asymptotics",
+    name: "Separable asymptotics",
+    kind: "positive",
+    summary:
+      "Use special asymptotic geometry to parametrize smooth quartic threefolds and fourfolds."
   },
   {
     id: "canonical",
@@ -160,6 +176,60 @@ export const references = [
     venue: "Duke Math. J. 95, 125-160",
     methods: ["low-degree-curves"],
     topics: ["unirationality"]
+  },
+  {
+    id: "MR1734598",
+    authors: "Alberto Conte and Jacob P. Murre",
+    title: "On a theorem of Morin on the unirationality of the quartic fivefold",
+    year: 1998,
+    venue: "Atti Accad. Sci. Torino Cl. Sci. Fis. Mat. Natur. 132, 49-59",
+    methods: ["linear-spaces"],
+    topics: ["unirationality", "quartic fivefold"]
+  },
+  {
+    id: "MR0121698",
+    authors: "Beniamino Segre",
+    title: "Variazione continua ed omotopia in geometria algebrica",
+    year: 1960,
+    venue: "Ann. Mat. Pura Appl. (4) 50, 149-186",
+    methods: ["asymptotics"],
+    topics: ["unirationality", "quartic threefold"]
+  },
+  {
+    id: "MR0146721",
+    authors: "Arno Predonzan",
+    title: "Sulle superficie monoidali del quarto ordine ad asintotiche separabili",
+    year: 1960,
+    venue: "Rend. Sem. Mat. Univ. Padova 30, 215-231",
+    methods: ["asymptotics"],
+    topics: ["unirationality", "quartic threefold"]
+  },
+  {
+    id: "MR1769987",
+    authors: "Marina Rosanna Marchisio",
+    title: "Unirational quartic hypersurfaces",
+    year: 2000,
+    venue: "Boll. Un. Mat. Ital. B (8) 3, 301-314",
+    methods: ["asymptotics"],
+    topics: ["unirationality", "quartic threefold", "quartic fourfold"]
+  },
+  {
+    id: "MR2274124",
+    authors: "Marina Marchisio",
+    title: "A 54- (114-) dimensional family of smooth unirational quartic 3- (4-) folds",
+    year: 2006,
+    venue: "Boll. Un. Mat. Ital. B (8) 9, 733-748",
+    methods: ["asymptotics"],
+    topics: ["unirationality", "quartic threefold", "quartic fourfold"]
+  },
+  {
+    id: "MR2527970",
+    authors: "Alberto Conte, Marina Marchisio, and Jacob P. Murre",
+    title: "On the unirationality of the quintic hypersurface containing a 3-dimensional linear space",
+    year: 2008,
+    venue: "Atti Accad. Sci. Torino Cl. Sci. Fis. Mat. Natur. 142, 89-96",
+    methods: ["linear-spaces"],
+    topics: ["unirationality", "quintic hypersurface"]
   },
   {
     id: "MR1956057",
@@ -392,6 +462,36 @@ export const references = [
     topics: ["unirationality", "linear spaces", "hypersurfaces"]
   },
   {
+    id: "2511.07545",
+    type: "preprint",
+    authors: "Raymond Cheng",
+    title: "Unirationality of hypersurfaces via highly tangent lines",
+    year: 2025,
+    note: "arXiv preprint",
+    methods: ["secants"],
+    topics: ["unirationality", "high-dimensional hypersurfaces"]
+  },
+  {
+    id: "2212.14626",
+    type: "preprint",
+    authors: "Alex Massarenti",
+    title: "Quartic and quintic hypersurfaces with dense rational points",
+    year: 2023,
+    note: "Forum Math. Sigma 11, e55; arXiv preprint",
+    methods: ["linear-spaces"],
+    topics: ["unirationality", "quartic hypersurfaces", "quintic hypersurfaces"]
+  },
+  {
+    id: "1703.03294",
+    type: "preprint",
+    authors: "Jason Michael Starr",
+    title: "Veronese varieties contained in hypersurfaces",
+    year: 2026,
+    note: "arXiv preprint, updated 2026",
+    methods: ["linear-spaces"],
+    topics: ["linear spaces", "Fano schemes", "quintic hypersurfaces"]
+  },
+  {
     id: "2507.15704",
     type: "preprint",
     authors: "Philip Engel, Olivier de Gaay Fortman, and Stefan Schreieder",
@@ -574,22 +674,78 @@ function unirationality(n, d) {
       ["secants"]
     );
   }
+  if (Math.log2(n + 1) >= factorial(d)) {
+    return result(
+      "yes",
+      "Unirational",
+      "The high-dimensional linear-space criterion proves that every smooth member is unirational.",
+      ["MR1646558", "1903.02481"],
+      ["linear-spaces"]
+    );
+  }
   if (d === 4 && n >= 6) {
     return result(
       "yes",
       "Unirational",
       "Every smooth complex quartic hypersurface of dimension at least 6 is unirational.",
       ["MR1646558"],
-      ["low-degree-curves"]
+      ["linear-spaces"]
     );
   }
-  if (2 * factorial(d) <= n + 1) {
+  if (d === 4 && n === 5) {
     return result(
-      "yes",
-      "Unirational",
-      "The high-dimensional low-degree criterion proves every smooth member unirational.",
-      ["MR1646558", "1903.02481", "2409.12834"],
-      ["low-degree-curves"]
+      "general-yes",
+      "General member is unirational",
+      "A general smooth quartic fivefold is unirational. Unirationality of every smooth quartic fivefold remains open.",
+      ["MR1734598"],
+      ["linear-spaces"]
+    );
+  }
+  if (d === 4 && n === 3) {
+    return result(
+      "special-yes",
+      "Special examples are unirational",
+      "Segre, Predonzan, and Marchisio constructed smooth unirational quartic threefolds. Unirationality of a general member remains open.",
+      ["MR0121698", "MR0146721", "MR1769987", "MR2274124"],
+      ["asymptotics"]
+    );
+  }
+  if (d === 4 && n === 4) {
+    return result(
+      "special-yes",
+      "Special examples are unirational",
+      "Smooth unirational quartic fourfolds occur in special families, including quartics containing a plane. Unirationality of a general member remains open.",
+      ["MR1769987", "MR2274124", "2212.14626"],
+      ["asymptotics", "linear-spaces"]
+    );
+  }
+  if (d === 5 && n >= 16) {
+    return result(
+      "general-yes",
+      "General member is unirational",
+      "A general quintic of dimension at least 16 contains a 3-plane and is unirational. The result is not known for every smooth member.",
+      ["MR2527970", "1703.03294"],
+      ["linear-spaces"]
+    );
+  }
+  if (d === 5 && n >= 6) {
+    return result(
+      "special-yes",
+      "Special examples are unirational",
+      "A quintic containing a 3-plane and otherwise general is smooth and unirational in this dimension. Unirationality of a general quintic is open.",
+      ["MR2527970"],
+      ["linear-spaces"]
+    );
+  }
+  const chengThreshold = { 6: 160, 7: 20376, 8: 11914188890 }[d];
+  if (d >= 6 && ((chengThreshold && n + 1 >= chengThreshold) ||
+      Math.log2(n + 1) >= (d - 1) * 2 ** (d - 5))) {
+    return result(
+      "general-yes",
+      "General member is unirational",
+      "The highly tangent lines criterion proves that a general member is unirational in this dimension.",
+      ["2511.07545"],
+      ["secants"]
     );
   }
   return result(

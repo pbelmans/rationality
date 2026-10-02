@@ -55,6 +55,40 @@ test("unirational cubics can still be irrational", () => {
   assert.equal(classify("rationality", 3, 3).status, "no");
 });
 
+test("quartic unirationality distinguishes special, general, and all smooth members", () => {
+  for (const n of [3, 4]) {
+    const result = classify("unirationality", n, 4);
+    assert.equal(result.status, "special-yes");
+    assert.ok(result.refs.includes("MR2274124"));
+  }
+  assert.equal(classify("unirationality", 5, 4).status, "general-yes");
+  assert.deepEqual(classify("unirationality", 5, 4).refs, ["MR1734598"]);
+  assert.equal(classify("unirationality", 6, 4).status, "yes");
+  assert.equal(classify("unirationality", 100, 4).status, "yes");
+});
+
+test("quintic unirationality distinguishes plane-containing and general cases", () => {
+  assert.equal(classify("unirationality", 5, 5).status, "open");
+  for (const n of [6, 9, 15]) {
+    const result = classify("unirationality", n, 5);
+    assert.equal(result.status, "special-yes");
+    assert.deepEqual(result.refs, ["MR2527970"]);
+  }
+  assert.equal(classify("unirationality", 16, 5).status, "general-yes");
+  assert.deepEqual(classify("unirationality", 16, 5).refs, ["MR2527970", "1703.03294"]);
+  assert.equal(classify("unirationality", 100, 5).status, "general-yes");
+});
+
+test("higher-degree bounds do not use twice the factorial", () => {
+  assert.equal(classify("unirationality", 100, 6).status, "open");
+  assert.equal(classify("unirationality", 158, 6).status, "open");
+  assert.equal(classify("unirationality", 159, 6).status, "general-yes");
+  assert.deepEqual(classify("unirationality", 159, 6).refs, ["2511.07545"]);
+  assert.equal(classify("unirationality", 20375, 7).status, "general-yes");
+  assert.equal(classify("unirationality", 11914188889, 8).status, "general-yes");
+  assert.equal(classify("unirationality", 2 ** 120, 5).status, "yes");
+});
+
 test("Fano and non-Fano rational connectedness are separated", () => {
   assert.equal(classify("connectedness", 6, 7).status, "yes");
   assert.equal(classify("connectedness", 6, 8).status, "no");

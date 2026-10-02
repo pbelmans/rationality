@@ -118,6 +118,14 @@ main {
   background-color: var(--yes);
 }
 
+.general-yes {
+  background: linear-gradient(135deg, var(--yes) 0 75%, var(--open) 75%);
+}
+
+.special-yes {
+  background: linear-gradient(135deg, var(--open) 0 75%, var(--yes) 75%);
+}
+
 .no {
   background-color: var(--no);
 }
