@@ -24,6 +24,42 @@ test("Ottem updates the quartic sixfold cell", () => {
   assert.ok(result.methods.includes("unramified"));
 });
 
+test("Hotchkiss covers degree at least five in every dimension without weakening classical results", () => {
+  for (let d = 5; d <= 20; d += 1) {
+    for (let n = 1; n <= 100; n += 1) {
+      const result = classify("stable", n, d);
+      if (d >= n + 2) {
+        assert.equal(result.status, "no");
+      } else {
+        assert.equal(result.status, "very-general-no");
+        assert.ok(result.refs.includes("2610.10509"));
+        assert.match(result.statement, /very general/);
+        assert.match(result.statement, /neither retract nor stably rational/);
+      }
+    }
+  }
+  assert.equal(classify("rationality", 4, 5).status, "no");
+});
+
+test("Hotchkiss propagates to rationality beyond the previous dimension bounds", () => {
+  for (const [n, d] of [[13, 5], [29, 6], [65, 7], [145, 8], [1000000, 5], [1000000, 20]]) {
+    const stable = classify("stable", n, d);
+    const rationality = classify("rationality", n, d);
+    assert.equal(stable.status, "very-general-no");
+    assert.equal(rationality.status, "very-general-no");
+    assert.ok(rationality.refs.includes("2610.10509"));
+    assert.deepEqual(rationality.methods, stable.methods);
+    assert.ok(rationality.methods.includes("unramified"));
+  }
+});
+
+test("higher-degree stable irrationality results leave the remaining cubic cases open", () => {
+  for (const layer of ["rationality", "stable"]) {
+    assert.equal(classify(layer, 5, 3).status, "open");
+  }
+  assert.equal(classify("stable", 4, 3).status, "open");
+});
+
 test("very general quartics are stably irrational in every positive dimension", () => {
   for (let n = 1; n <= 100; n += 1) {
     const result = classify("stable", n, 4);

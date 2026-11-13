@@ -452,6 +452,16 @@ export const references = [
     topics: ["stable rationality", "quartic sixfold"]
   },
   {
+    id: "2610.10509",
+    type: "preprint",
+    authors: "James Hotchkiss",
+    title: "The rationality problem for hypersurfaces of degree at least five",
+    year: 2026,
+    note: "arXiv v1, Theorem 1.1",
+    methods: ["diagonal", "unramified", "specialization"],
+    topics: ["rationality", "stable rationality", "retract rationality", "very general"]
+  },
+  {
     id: "2611.15702",
     type: "preprint",
     authors: "Christian Böhning, Hans-Christian Graf von Bothmer, Alena Pirutka, and Zhijia Zhang",
@@ -618,6 +628,15 @@ function stableRationality(n, d) {
   }
   if (n === 1 || d >= n + 2) {
     return result("no", "Not stably rational", "Every smooth hypersurface in this cell is irrational for a stable birational reason.", [], ["canonical"]);
+  }
+  if (d >= 5) {
+    return result(
+      "very-general-no",
+      "Very general is not stably rational",
+      "Hotchkiss proves that a very general hypersurface of degree at least 5 in any positive dimension has no decomposition of the diagonal, hence is neither retract nor stably rational.",
+      ["2610.10509"],
+      ["diagonal", "unramified", "specialization"]
+    );
   }
   if (n === 3 && d === 3) {
     return result(
