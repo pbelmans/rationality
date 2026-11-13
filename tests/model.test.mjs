@@ -24,6 +24,30 @@ test("Ottem updates the quartic sixfold cell", () => {
   assert.ok(result.methods.includes("unramified"));
 });
 
+test("very general quartics are stably irrational in every positive dimension", () => {
+  for (let n = 1; n <= 100; n += 1) {
+    const result = classify("stable", n, 4);
+    assert.equal(result.status, n <= 2 ? "no" : "very-general-no");
+  }
+  assert.equal(classify("rationality", 3, 4).status, "no");
+});
+
+test("the quartic preprint settles every previously open dimension and propagates to rationality", () => {
+  for (const n of [...Array.from({ length: 94 }, (_, i) => i + 7), 1000000]) {
+    const stable = classify("stable", n, 4);
+    const rationality = classify("rationality", n, 4);
+    assert.equal(stable.status, "very-general-no");
+    assert.equal(rationality.status, "very-general-no");
+    assert.deepEqual(stable.refs, ["2611.15702"]);
+    assert.deepEqual(rationality.refs, stable.refs);
+    assert.match(stable.statement, /very general/);
+    assert.match(stable.statement, /no integral decomposition of the diagonal/);
+    assert.match(stable.statement, /neither retract nor stably rational/);
+    assert.deepEqual(stable.methods, ["diagonal", "unramified", "specialization"]);
+    assert.deepEqual(rationality.methods, stable.methods);
+  }
+});
+
 test("rationality and stable rationality are not conflated", () => {
   assert.equal(classify("rationality", 3, 4).status, "no");
   assert.equal(classify("stable", 3, 4).status, "very-general-no");

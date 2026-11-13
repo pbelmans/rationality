@@ -1,4 +1,4 @@
-export const snapshotDate = "2026-10-02";
+export const snapshotDate = "2026-11-13";
 
 export const layers = {
   rationality: {
@@ -452,6 +452,16 @@ export const references = [
     topics: ["stable rationality", "quartic sixfold"]
   },
   {
+    id: "2611.15702",
+    type: "preprint",
+    authors: "Christian Böhning, Hans-Christian Graf von Bothmer, Alena Pirutka, and Zhijia Zhang",
+    title: "Stable irrationality of quartic hypersurfaces",
+    year: 2026,
+    note: "arXiv v1, Theorem 1.1 and Corollary 4.8",
+    methods: ["diagonal", "unramified", "specialization"],
+    topics: ["rationality", "stable rationality", "retract rationality", "very general", "quartic hypersurfaces"]
+  },
+  {
     id: "1903.02481",
     type: "preprint",
     authors: "Roya Beheshti and Eric Riedl",
@@ -624,6 +634,15 @@ function stableRationality(n, d) {
       "Very general is not stably rational",
       "A very general quartic sixfold has no integral decomposition of the diagonal, hence is neither retract nor stably rational.",
       ["MR0999316", "MR3849287", "2609.10231"],
+      ["diagonal", "unramified", "specialization"]
+    );
+  }
+  if (d === 4 && n >= 7) {
+    return result(
+      "very-general-no",
+      "Very general is not stably rational",
+      "Böhning, von Bothmer, Pirutka, and Zhang prove that a very general quartic hypersurface in every positive dimension has no integral decomposition of the diagonal, hence is neither retract nor stably rational.",
+      ["2611.15702"],
       ["diagonal", "unramified", "specialization"]
     );
   }
